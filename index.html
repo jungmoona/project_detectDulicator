@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이미지 유사성 비교</title>
+</head>
+<body>
+    <h1>이미지 유사성 비교</h1>
+
+    <!-- 폴더 선택 -->
+    <input type="file" id="imageFolder" webkitdirectory directory multiple>
+    <br><br>
+
+    <!-- 비교검색 시작 버튼 -->
+    <button onclick="compareImages()">비교검색 시작</button>
+    <br><br>
+
+    <!-- 비교검색 결과 출력창 -->
+    <div id="result"></div>
+
+    <script>
+        function compareImages() {
+            var files = document.getElementById('imageFolder').files;
+            var formData = new FormData();
+            for (var i = 0; i < files.length; i++) {
+                formData.append('file', files[i]);
+            }
+            fetch('/', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('result').innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>
